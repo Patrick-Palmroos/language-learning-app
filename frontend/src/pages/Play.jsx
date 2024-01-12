@@ -1,5 +1,29 @@
+import axios from "axios";
+import { useState, useEffect } from "react";
+
 function Play() {
-  return <h1>Play</h1>;
+  const [tasks, setTasks] = useState([{}]);
+
+  useEffect(() => {
+    axios
+      .get(`${import.meta.env.VITE_API_URL}/tasks`)
+      .then((resp) => setTasks(resp.data))
+      .catch((err) => console.log(err));
+  }, []);
+
+  return (
+    <div>
+      <ul>
+        {tasks.map((task) => {
+          return (
+            <li
+              key={task.TaskID}
+            >{`task in english: ${task.English}, finnish: ${task.Finnish}, swedish: ${task.Swedish}`}</li>
+          );
+        })}
+      </ul>
+    </div>
+  );
 }
 
 export default Play;
