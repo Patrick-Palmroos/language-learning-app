@@ -2,6 +2,8 @@ import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useState } from "react";
+import LoginOutlinedIcon from "@mui/icons-material/LoginOutlined";
+import Button from "@mui/material/Button";
 
 //theme for handling the textfield colors. Figuring this out caused too much headache..
 const theme = createTheme({
@@ -76,6 +78,9 @@ function Login() {
           />
         </div>
       </Box>
+      <Button variant="contained" endIcon={<LoginOutlinedIcon />}>
+        Log In
+      </Button>
     </ThemeProvider>
   );
 }
