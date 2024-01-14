@@ -23,9 +23,15 @@ function Navbar() {
           <button onClick={handleDropdown}>Profile</button>
           {open ? (
             <ul className="menu-items">
-              <li>profile</li>
-              <li>settings</li>
-              <li>login</li>
+              <li>
+                <Link to="profile">profile</Link>
+              </li>
+              <li>
+                <Link to="settings">settings</Link>
+              </li>
+              <li>
+                <Link to="login">login</Link>
+              </li>
             </ul>
           ) : null}
         </div>
