@@ -1,9 +1,11 @@
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import LoginOutlinedIcon from "@mui/icons-material/LoginOutlined";
 import Button from "@mui/material/Button";
+import { CookiesProvider, useCookies } from "react-cookie";
+import axios from "axios";
 
 //theme for handling the textfield colors. Figuring this out caused too much headache..
 const theme = createTheme({
@@ -31,28 +33,59 @@ const theme = createTheme({
 });
 
 function Login() {
-  const [usernameInput, setUsernameInput] = useState("");
+  const [emailInput, setEmailInput] = useState("");
   const [passwordInput, setPasswordInput] = useState("");
+  const [cookies, setCookie] = useCookies(["user"]);
+  const [user, setUser] = useState({});
+  const [test, setTest] = useState("not logged in");
 
-  //handles storing typing for password field
-  const handlePasswordInput = (event) => {
-    setPasswordInput(event.target.value);
-    console.log(passwordInput);
+  const handleLogin = async () => {
+    console.log(`Username: ${emailInput} \nPassword: ${passwordInput}`);
+    try {
+      const resp = await axios.post(
+        `${import.meta.env.VITE_API_URL}/login`,
+        {
+          email: emailInput,
+          password: passwordInput,
+        },
+        { withCredentials: true }
+      );
+
+      if (resp === 200) {
+        console.log("LogggeeedINNNNNN");
+      }
+    } catch (err) {
+      console.log("login failed ", err);
+    }
   };
 
-  //handles storing typing for username field
-  const handleUsernameInput = (event) => {
-    setUsernameInput(event.target.value);
-    console.log(usernameInput);
-  };
-
-  const handleLogin = () => {
-    console.log(`Username: ${usernameInput} \nPassword: ${passwordInput}`);
-  };
+  useEffect(() => {
+    const autoLogin = async () => {
+      try {
+        console.log("trying");
+        const resp = await axios.get(`http://localhost:8080/autoLogin`, {
+          withCredentials: true,
+        });
+        if (resp.status === 200) {
+          console.log("success");
+        }
+      } catch (err) {
+        console.log(err);
+        // Handle error
+        if (err.response && err.response.status === 401) {
+          console.log("Unauthorized access");
+        } else {
+          console.error("Unexpected error:", err);
+        }
+      }
+    };
+    autoLogin();
+  }, []);
 
   return (
     //theme provider which hauses input fields.
     <ThemeProvider theme={theme}>
+      <h1>Log in</h1>
       <Box
         component="form"
         sx={{
@@ -65,20 +98,24 @@ function Login() {
           <TextField
             required
             id="outlined-required"
-            label="Username"
+            label="Email"
             InputProps={{ style: { color: "white" } }}
-            onChange={handleUsernameInput}
+            onChange={(input) => setEmailInput(input.target.value)}
           />
           <TextField
             id="outlined-password-input"
             label="Password"
             type="password"
             InputProps={{ style: { color: "white" } }}
-            onChange={handlePasswordInput}
+            onChange={(input) => setPasswordInput(input.target.value)}
           />
         </div>
       </Box>
-      <Button variant="contained" endIcon={<LoginOutlinedIcon />}>
+      <Button
+        variant="contained"
+        endIcon={<LoginOutlinedIcon />}
+        onClick={handleLogin}
+      >
         Log In
       </Button>
     </ThemeProvider>
