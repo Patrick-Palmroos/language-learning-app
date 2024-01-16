@@ -4,9 +4,9 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useEffect, useState } from "react";
 import LoginOutlinedIcon from "@mui/icons-material/LoginOutlined";
 import Button from "@mui/material/Button";
-import { CookiesProvider, useCookies } from "react-cookie";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { Outlet, Link } from "react-router-dom";
 
 //theme for handling the textfield colors. Figuring this out caused too much headache..
 const theme = createTheme({
@@ -116,6 +116,9 @@ function Login() {
           />
         </div>
       </Box>
+      <p>
+        Don't have an account? Register <Link to="/register">here!</Link>
+      </p>
       <Button
         variant="contained"
         endIcon={<LoginOutlinedIcon />}

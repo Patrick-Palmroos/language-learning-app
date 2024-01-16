@@ -8,7 +8,7 @@ import Login from "./pages/Login.jsx";
 import Profile from "./pages/Profile.jsx";
 import Settings from "./pages/Settings.jsx";
 import Logout from "./pages/Logout.jsx";
-import { CookiesProvider, useCookies } from "react-cookie";
+import Register from "./pages/Register.jsx";
 
 function App() {
   return (
@@ -22,6 +22,7 @@ function App() {
           <Route path="profile" element={<Profile />} />
           <Route path="settings" element={<Settings />} />
           <Route path="logout" element={<Logout />} />
+          <Route path="register" element={<Register />} />
         </Routes>
       </BrowserRouter>
     </>
