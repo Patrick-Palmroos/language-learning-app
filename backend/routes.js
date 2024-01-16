@@ -27,20 +27,29 @@ router.get("/autoLogin", (req, res) => {
   }
 });
 
-router.post("/login", (req, res) => {
+router.post("/login", async (req, res) => {
   const { email, password } = req.body;
-  if (email === "aa" && password === "bb") {
-    const authToken = jsonwebtoken.sign(
-      { email, userID: 1 },
-      process.env.AUTH_KEY
-    );
-    res.cookie("authToken", authToken, {
-      httpOnly: true,
-      maxAge: 60 * 60 * 1000,
-    });
-    res.sendStatus(200);
-    console.log("logged in");
-  } else {
+
+  try {
+    const resp = await db.checkForUser(email, password);
+
+    if (resp.code === 200) {
+      console.log("routes has id of: " + resp.id);
+      const authToken = jsonwebtoken.sign(
+        { userID: resp.id },
+        process.env.AUTH_KEY
+      );
+      res.cookie("authToken", authToken, {
+        httpOnly: true,
+        maxAge: 60 * 60 * 1000,
+      });
+      res.sendStatus(200);
+      console.log("logged in");
+    } else {
+      res.sendStatus(401);
+    }
+  } catch (e) {
+    console.log("unexpected error");
     res.sendStatus(401);
   }
 });

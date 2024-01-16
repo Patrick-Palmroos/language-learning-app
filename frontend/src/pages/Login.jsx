@@ -55,6 +55,8 @@ function Login() {
         navigate(0);
       }
     } catch (err) {
+      //if account doesnt exist, reloads site so the post works again
+      navigate(0);
       console.log("login failed ", err);
     }
   };
