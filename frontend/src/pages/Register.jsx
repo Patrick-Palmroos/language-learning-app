@@ -4,6 +4,8 @@ import LoginOutlinedIcon from "@mui/icons-material/LoginOutlined";
 import Button from "@mui/material/Button";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useState } from "react";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const theme = createTheme({
   components: {
@@ -48,6 +50,7 @@ function Register() {
   const [fname, setFname] = useState("");
   const [lname, setLname] = useState("");
   const [email, setEmail] = useState("");
+  const navigate = useNavigate();
 
   const validateNewAccount = () => {
     let validInput = true;
@@ -90,8 +93,33 @@ function Register() {
 
     if (validInput) {
       console.log("create new account");
+      sendNewUserData();
     } else {
       setError(newErrors);
+    }
+  };
+
+  const sendNewUserData = async () => {
+    try {
+      const resp = await axios.post(
+        `${import.meta.env.VITE_API_URL}/signup`,
+        {
+          fname,
+          lname,
+          email,
+          password: password1,
+        },
+        { withCredentials: true }
+      );
+      if (resp.status === 200) {
+        console.log("Signedup");
+        await navigate("/");
+        navigate(0);
+      }
+    } catch (err) {
+      //if account doesnt exist, reloads site so the post works again
+      //navigate(0);
+      console.log("login failed ", err);
     }
   };
 
