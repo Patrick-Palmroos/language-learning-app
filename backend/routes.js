@@ -45,4 +45,10 @@ router.post("/login", (req, res) => {
   }
 });
 
+router.post("/logout", (req, res) => {
+  console.log("routes logout");
+  res.clearCookie("authToken");
+  res.sendStatus(200);
+});
+
 module.exports = router;
