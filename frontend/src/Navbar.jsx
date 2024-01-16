@@ -42,29 +42,32 @@ function Navbar() {
           <li>
             <Link to="/">Home</Link>
           </li>
-          <li>
-            <Link to="/play">Play</Link>
-          </li>
+          {logged ? (
+            <li>
+              <Link to="/play">Learn!</Link>
+            </li>
+          ) : (
+            <Link to="/login">Learn!</Link>
+          )}
         </ul>
         <div className="dropDown">
           <button onClick={handleDropdown}>Profile</button>
           {open ? (
             <ul className="menu-items">
               <li>
-                <Link to="/profile">profile</Link>
+                {logged ? (
+                  <Link to="/profile">profile</Link>
+                ) : (
+                  <Link to="/login">profile</Link>
+                )}
               </li>
               <li>
-                <Link to="/settings">settings</Link>
-              </li>
-              {logged ? (
-                <li>
+                {logged ? (
                   <Link to="/logout">log out</Link>
-                </li>
-              ) : (
-                <li>
+                ) : (
                   <Link to="/login">log in</Link>
-                </li>
-              )}
+                )}
+              </li>
             </ul>
           ) : null}
         </div>
