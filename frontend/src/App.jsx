@@ -7,6 +7,8 @@ import Play from "./pages/Play.jsx";
 import Login from "./pages/Login.jsx";
 import Profile from "./pages/Profile.jsx";
 import Settings from "./pages/Settings.jsx";
+import Logout from "./pages/Logout.jsx";
+import { CookiesProvider, useCookies } from "react-cookie";
 
 function App() {
   return (
@@ -19,6 +21,7 @@ function App() {
           <Route path="login" element={<Login />} />
           <Route path="profile" element={<Profile />} />
           <Route path="settings" element={<Settings />} />
+          <Route path="logout" element={<Logout />} />
         </Routes>
       </BrowserRouter>
     </>
