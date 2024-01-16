@@ -21,7 +21,6 @@ const getAllTasks = async () => {
 };
 
 const checkForUser = async (email, password) => {
-  console.log("we go in");
   const promise = await new Promise((resolve, reject) => {
     connection.query(
       `SELECT CONNECTION_ID() AS ConnID, Users.* FROM Users WHERE Email = ? AND Password = ?`,
@@ -44,4 +43,24 @@ const checkForUser = async (email, password) => {
   return promise;
 };
 
-module.exports = { getAllTasks, checkForUser };
+const createAccount = async (data) => {
+  console.log(data);
+  const promise = await new Promise((resolve, reject) => {
+    connection.query(
+      `INSERT INTO Users (FirstName, LastName, Password, Email, Admin, points)
+      VALUES (?, ?, ?, ?, 0, 0)`,
+      [data.fname, data.lname, data.password, data.email],
+      (err, res) => {
+        if (err) {
+          console.log(err);
+          reject({ code: 404 });
+        }
+        resolve({ code: 200 });
+      }
+    );
+  });
+
+  return promise;
+};
+
+module.exports = { getAllTasks, checkForUser, createAccount };
