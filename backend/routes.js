@@ -60,4 +60,10 @@ router.post("/logout", (req, res) => {
   res.sendStatus(200);
 });
 
+router.post("/signup", async (req, res) => {
+  await db
+    .createAccount(req.body)
+    .then((result) => res.sendStatus(result.code));
+});
+
 module.exports = router;
