@@ -6,6 +6,7 @@ import LoginOutlinedIcon from "@mui/icons-material/LoginOutlined";
 import Button from "@mui/material/Button";
 import { CookiesProvider, useCookies } from "react-cookie";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 //theme for handling the textfield colors. Figuring this out caused too much headache..
 const theme = createTheme({
@@ -35,9 +36,7 @@ const theme = createTheme({
 function Login() {
   const [emailInput, setEmailInput] = useState("");
   const [passwordInput, setPasswordInput] = useState("");
-  const [cookies, setCookie] = useCookies(["user"]);
-  const [user, setUser] = useState({});
-  const [test, setTest] = useState("not logged in");
+  const navigate = useNavigate();
 
   const handleLogin = async () => {
     console.log(`Username: ${emailInput} \nPassword: ${passwordInput}`);
@@ -50,9 +49,10 @@ function Login() {
         },
         { withCredentials: true }
       );
-
-      if (resp === 200) {
+      if (resp.status === 200) {
         console.log("LogggeeedINNNNNN");
+        await navigate("/");
+        navigate(0);
       }
     } catch (err) {
       console.log("login failed ", err);
@@ -63,9 +63,12 @@ function Login() {
     const autoLogin = async () => {
       try {
         console.log("trying");
-        const resp = await axios.get(`http://localhost:8080/autoLogin`, {
-          withCredentials: true,
-        });
+        const resp = await axios.get(
+          `${import.meta.env.VITE_API_URL}/autoLogin`,
+          {
+            withCredentials: true,
+          }
+        );
         if (resp.status === 200) {
           console.log("success");
         }
