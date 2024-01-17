@@ -27,7 +27,7 @@ function Task(data) {
 
   return (
     <>
-      <li>
+      <li id={task.id}>
         <h2>
           task:{task.id} en:{task.english} fi:{task.finnish}
         </h2>
