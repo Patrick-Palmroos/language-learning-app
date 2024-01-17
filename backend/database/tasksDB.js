@@ -100,10 +100,30 @@ const deleteTaskByID = async (id) => {
   return promise;
 };
 
+//edit task. replace english and finnish with the ones in data using UPDATE.
+const editTask = async (data) => {
+  console.log(data);
+  const promise = await new Promise((resolve, reject) => {
+    connection.query(
+      `UPDATE Tasks SET English = ?, Finnish = ? WHERE TaskID = ?`,
+      [data.english, data.finnish, data.id],
+      (err, results) => {
+        if (err) {
+          reject({ code: 404, message: "item not found" });
+        }
+        resolve({ code: 200 });
+      }
+    );
+  });
+
+  return promise;
+};
+
 module.exports = {
   getAllTasks,
   checkForUser,
   createAccount,
   createTask,
   deleteTaskByID,
+  editTask,
 };
