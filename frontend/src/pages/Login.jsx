@@ -38,6 +38,7 @@ function Login() {
   const [passwordInput, setPasswordInput] = useState("");
   const navigate = useNavigate();
   const [logged, setLogged] = useState(false);
+  const [err, setErr] = useState(null);
 
   const handleLogin = async () => {
     console.log(`Username: ${emailInput} \nPassword: ${passwordInput}`);
@@ -54,10 +55,13 @@ function Login() {
         console.log("LogggeeedINNNNNN");
         await navigate("/");
         navigate(0);
+      } else {
+        console.log("here");
       }
     } catch (err) {
       //if account doesnt exist, reloads site so the post works again
-      navigate(0);
+      setErr("invalid password or email");
+      //navigate(0);
       console.log("login failed ", err);
     }
   };
@@ -110,6 +114,8 @@ function Login() {
                 label="Email"
                 InputProps={{ style: { color: "white" } }}
                 onChange={(input) => setEmailInput(input.target.value)}
+                error={err === null ? false : true}
+                helperText={err}
               />
               <TextField
                 id="outlined-password-input"
@@ -117,6 +123,8 @@ function Login() {
                 type="password"
                 InputProps={{ style: { color: "white" } }}
                 onChange={(input) => setPasswordInput(input.target.value)}
+                error={err === null ? false : true}
+                helperText={err}
               />
             </div>
           </Box>
