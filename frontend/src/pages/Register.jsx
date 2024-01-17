@@ -7,12 +7,13 @@ import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
+//theme for input boxes colors to be correct
 const theme = createTheme({
   components: {
     MuiInputLabel: {
       styleOverrides: {
         root: {
-          color: "white", // Label text color
+          color: "white",
         },
       },
     },
@@ -31,7 +32,7 @@ const theme = createTheme({
     MuiFormHelperText: {
       styleOverrides: {
         root: {
-          color: "white", // Helper text color
+          color: "white",
         },
       },
     },
@@ -52,6 +53,7 @@ function Register() {
   const [email, setEmail] = useState("");
   const navigate = useNavigate();
 
+  //validates user inputted account
   const validateNewAccount = () => {
     let validInput = true;
     //new error statuses
