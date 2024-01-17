@@ -6,6 +6,7 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import Button from "@mui/material/Button";
 import { useNavigate } from "react-router-dom";
 
+//theme for mui boxes.
 const theme = createTheme({
   components: {
     MuiInputLabel: {
@@ -102,11 +103,7 @@ function Admin() {
           />
         </ThemeProvider>
       </div>
-      <Button
-        variant="contained"
-        // endIcon={<LoginOutlinedIcon />}
-        onClick={handleNewTask}
-      >
+      <Button variant="contained" onClick={handleNewTask}>
         add task
       </Button>
       <h2>all tasks:</h2>
