@@ -5,6 +5,7 @@ import TextField from "@mui/material/TextField";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import Button from "@mui/material/Button";
 
+//theme for mui boxes
 const theme = createTheme({
   components: {
     MuiInputLabel: {
@@ -37,6 +38,7 @@ function Edit() {
   const [english, setEnglish] = useState("");
   const navigate = useNavigate();
 
+  //finds specific task and saves it in task state hook.
   useEffect(() => {
     const findTask = async () => {
       const resp = await axios.post(
@@ -53,6 +55,7 @@ function Edit() {
     findTask();
   }, []);
 
+  //checks if inputs are empty and if not, sends request to save them into database
   const handleSave = async () => {
     if (finnish.trim() !== "" && english.trim() !== "") {
       try {
@@ -75,6 +78,7 @@ function Edit() {
         console.log("error");
       }
     } else {
+      //sets an error if fields are empty
       setErr("neither field can be empty");
     }
   };
@@ -111,11 +115,7 @@ function Edit() {
           />
         </ThemeProvider>
       </div>
-      <Button
-        variant="contained"
-        // endIcon={<LoginOutlinedIcon />}
-        onClick={handleSave}
-      >
+      <Button variant="contained" onClick={handleSave}>
         save
       </Button>
     </>
