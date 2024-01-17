@@ -16,7 +16,6 @@ function Home() {
         );
         //if backend responds with "ok", sets user being logged to true.
         if (resp.status === 200) {
-          console.log("success");
           setLogged(true);
         }
       } catch (err) {

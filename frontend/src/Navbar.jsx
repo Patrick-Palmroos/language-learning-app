@@ -11,14 +11,12 @@ function Navbar() {
   useEffect(() => {
     const autoLogin = async () => {
       try {
-        console.log("called");
         const resp = await axios.get(
           `${import.meta.env.VITE_API_URL}/autoLogin`,
           {
             withCredentials: true,
           }
         );
-        console.log("ok");
         if (resp.status === 200) {
           setLogged(true);
           isAdmin();
@@ -43,7 +41,6 @@ function Navbar() {
     });
     if (resp.data[0].Admin === 1) {
       setAdmin(true);
-      console.log("is admin");
     }
   };
 
