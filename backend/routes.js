@@ -87,4 +87,9 @@ router.post("/deleteTask", async (req, res) => {
     .then((stat) => res.sendStatus(stat.code));
 });
 
+//route for editin task
+router.patch("/editTask", async (req, res) => {
+  await db.editTask(req.body).then((stat) => res.sendStatus(stat.code));
+});
+
 module.exports = router;
