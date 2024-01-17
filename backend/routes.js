@@ -76,13 +76,15 @@ router.post("/signup", async (req, res) => {
 //route for adding a task
 router.post("/addTask", async (req, res) => {
   console.log("added:");
-  db.createTask(req);
+  await db.createTask(req.body).then((stat) => res.sendStatus(stat.code));
 });
 
 //route for deleting a task
 router.post("/deleteTask", async (req, res) => {
   console.log("deleting " + req.body.id + "...");
-  db.deleteTaskByID(req.body.id);
+  await db
+    .deleteTaskByID(req.body.id)
+    .then((stat) => res.sendStatus(stat.code));
 });
 
 module.exports = router;
