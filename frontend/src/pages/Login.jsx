@@ -6,7 +6,7 @@ import LoginOutlinedIcon from "@mui/icons-material/LoginOutlined";
 import Button from "@mui/material/Button";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { Outlet, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 //theme for handling the textfield colors. Figuring this out caused too much headache..
 const theme = createTheme({
