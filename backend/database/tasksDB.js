@@ -137,6 +137,24 @@ const findTaskById = async (id) => {
   return promise;
 };
 
+//finds user by its id and returns full name, points and if is admin.
+const findUserByID = async (id) => {
+  const promise = await new Promise((resolve, reject) => {
+    connection.query(
+      `SELECT FirstName, LastName, points, Admin FROM Users WHERE UserID = ?`,
+      [id],
+      (err, results) => {
+        if (err) {
+          reject({ code: 404, message: "items not found" });
+        }
+        resolve(results);
+      }
+    );
+  });
+
+  return promise;
+};
+
 module.exports = {
   getAllTasks,
   checkForUser,
@@ -145,4 +163,5 @@ module.exports = {
   deleteTaskByID,
   editTask,
   findTaskById,
+  findUserByID,
 };
