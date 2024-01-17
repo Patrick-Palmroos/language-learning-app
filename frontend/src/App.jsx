@@ -26,7 +26,7 @@ function App() {
           <Route path="logout" element={<Logout />} />
           <Route path="register" element={<Register />} />
           <Route path="admin" element={<Admin />} />
-          <Route path="edit" element={<Admin />} />
+          <Route path="edit" element={<Edit />} />
         </Routes>
       </BrowserRouter>
     </>
