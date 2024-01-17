@@ -66,12 +66,38 @@ const createAccount = async (data) => {
 
 //creates a task
 const createTask = async (data) => {
-  console.log("data");
+  const promise = await new Promise((resolve, reject) => {
+    connection.query(
+      `INSERT INTO Tasks (Language, English, Finnish)
+      VALUES ('engfin', ?, ?)`,
+      [data.english, data.finnish],
+      (err, res) => {
+        if (err) {
+          console.log(err);
+          reject({ code: 404 });
+        }
+        resolve({ code: 200 });
+      }
+    );
+  });
+
+  return promise;
 };
 
 //deletes a task by its id
-const deleteTaskByID = (id) => {
+const deleteTaskByID = async (id) => {
   console.log(id);
+  const promise = await new Promise((resolve, reject) => {
+    connection.query(`DELETE FROM Tasks WHERE TaskID = ?`, [id], (err, res) => {
+      if (err) {
+        console.log(err);
+        reject({ code: 404 });
+      }
+      resolve({ code: 200 });
+    });
+  });
+
+  return promise;
 };
 
 module.exports = {
