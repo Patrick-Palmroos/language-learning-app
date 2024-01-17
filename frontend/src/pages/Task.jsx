@@ -1,5 +1,4 @@
 import Button from "@mui/material/Button";
-import Box from "@mui/material/Box";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
@@ -22,6 +21,7 @@ function Task(data) {
         { withCredentials: true }
       );
       if (resp.status === 200) {
+        //refreshes page if deletion us succesful
         navigate(0);
       }
     } catch (e) {
@@ -38,7 +38,6 @@ function Task(data) {
       </li>
       <Button
         variant="contained"
-        // endIcon={<LoginOutlinedIcon />}
         onClick={() => {
           navigate("/edit", {
             state: {
@@ -49,11 +48,7 @@ function Task(data) {
       >
         Edit
       </Button>
-      <Button
-        variant="contained"
-        // endIcon={<LoginOutlinedIcon />}
-        onClick={handleDeletion}
-      >
+      <Button variant="contained" onClick={handleDeletion}>
         Delete
       </Button>
     </>
