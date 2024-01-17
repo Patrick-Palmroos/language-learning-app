@@ -9,6 +9,7 @@ import Profile from "./pages/Profile.jsx";
 import Settings from "./pages/Settings.jsx";
 import Logout from "./pages/Logout.jsx";
 import Register from "./pages/Register.jsx";
+import Admin from "./pages/Admin.jsx";
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
           <Route path="settings" element={<Settings />} />
           <Route path="logout" element={<Logout />} />
           <Route path="register" element={<Register />} />
+          <Route path="admin" element={<Admin />} />
         </Routes>
       </BrowserRouter>
     </>

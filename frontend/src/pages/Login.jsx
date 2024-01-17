@@ -37,6 +37,7 @@ function Login() {
   const [emailInput, setEmailInput] = useState("");
   const [passwordInput, setPasswordInput] = useState("");
   const navigate = useNavigate();
+  const [logged, setLogged] = useState(false);
 
   const handleLogin = async () => {
     console.log(`Username: ${emailInput} \nPassword: ${passwordInput}`);
@@ -73,6 +74,7 @@ function Login() {
         );
         if (resp.status === 200) {
           console.log("success");
+          setLogged(true);
         }
       } catch (err) {
         console.log(err);
@@ -88,45 +90,49 @@ function Login() {
   }, []);
 
   return (
-    //theme provider which hauses input fields.
-    <ThemeProvider theme={theme}>
-      <h1>Log in</h1>
-      <Box
-        component="form"
-        sx={{
-          "& .MuiTextField-root": { m: 1, width: "25ch" },
-        }}
-        noValidate
-        autoComplete="off"
-      >
-        <div>
-          <TextField
-            required
-            id="outlined-required"
-            label="Email"
-            InputProps={{ style: { color: "white" } }}
-            onChange={(input) => setEmailInput(input.target.value)}
-          />
-          <TextField
-            id="outlined-password-input"
-            label="Password"
-            type="password"
-            InputProps={{ style: { color: "white" } }}
-            onChange={(input) => setPasswordInput(input.target.value)}
-          />
-        </div>
-      </Box>
-      <p>
-        Don't have an account? Register <Link to="/register">here!</Link>
-      </p>
-      <Button
-        variant="contained"
-        endIcon={<LoginOutlinedIcon />}
-        onClick={handleLogin}
-      >
-        Log In
-      </Button>
-    </ThemeProvider>
+    <>
+      {logged ? null : (
+        //theme provider which hauses input fields.
+        <ThemeProvider theme={theme}>
+          <h1>Log in</h1>
+          <Box
+            component="form"
+            sx={{
+              "& .MuiTextField-root": { m: 1, width: "25ch" },
+            }}
+            noValidate
+            autoComplete="off"
+          >
+            <div>
+              <TextField
+                required
+                id="outlined-required"
+                label="Email"
+                InputProps={{ style: { color: "white" } }}
+                onChange={(input) => setEmailInput(input.target.value)}
+              />
+              <TextField
+                id="outlined-password-input"
+                label="Password"
+                type="password"
+                InputProps={{ style: { color: "white" } }}
+                onChange={(input) => setPasswordInput(input.target.value)}
+              />
+            </div>
+          </Box>
+          <p>
+            Don't have an account? Register <Link to="/register">here!</Link>
+          </p>
+          <Button
+            variant="contained"
+            endIcon={<LoginOutlinedIcon />}
+            onClick={handleLogin}
+          >
+            Log In
+          </Button>
+        </ThemeProvider>
+      )}
+    </>
   );
 }
 
