@@ -97,4 +97,9 @@ router.post("/taskById", async (req, res) => {
   await db.findTaskById(req.body.id).then((item) => res.json(item));
 });
 
+//route for getting user by id
+router.post("/userById", async (req, res) => {
+  await db.findUserById(req.body.id).then((item) => res.json(item));
+});
+
 module.exports = router;
