@@ -13,19 +13,15 @@ router.get("/tasks", async (req, res) => {
 //route for logging the user automatically in.
 router.get("/autoLogin", (req, res) => {
   const authToken = req.cookies.authToken;
-  console.log("autologin initialized");
   //checks if authtoken exists and then attempts to decode it.
   if (authToken) {
     try {
       const decodToken = jsonwebtoken.verify(authToken, process.env.AUTH_KEY);
-      console.log(decodToken.userID);
       res.sendStatus(200);
     } catch (err) {
-      //res.sendStatus(404);
       console.log("invalid token");
     }
   } else {
-    //res.sendStatus(404);
     console.log("no token provided");
   }
 });
@@ -98,8 +94,19 @@ router.post("/taskById", async (req, res) => {
 });
 
 //route for getting user by id
-router.post("/userById", async (req, res) => {
-  await db.findUserById(req.body.id).then((item) => res.json(item));
+router.get("/userById", async (req, res) => {
+  const authToken = req.cookies.authToken;
+  if (authToken) {
+    try {
+      //decodes token and sends it to database
+      const decodToken = jsonwebtoken.verify(authToken, process.env.AUTH_KEY);
+      await db.findUserByID(decodToken.userID).then((item) => res.json(item));
+    } catch (err) {
+      console.log("invalid token");
+    }
+  } else {
+    console.log("no token provided");
+  }
 });
 
 module.exports = router;
