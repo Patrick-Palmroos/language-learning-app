@@ -63,19 +63,19 @@ function Register() {
     };
 
     //check if first name length is less than 1
-    if (fname.length < 1) {
+    if (fname.trim().length < 1) {
       validInput = false;
       newErrors.fname = "First name required*";
     }
 
     //check if last name length is less than 1
-    if (lname.length < 1) {
+    if (lname.trim().length < 1) {
       validInput = false;
       newErrors.lname = "Last name required*";
     }
 
     //check if email length is less than 5
-    if (email.length < 5) {
+    if (email.trim().length < 5) {
       validInput = false;
       newErrors.email = "Email required*";
     } else if (!email.includes("@") || !email.includes(".")) {
@@ -85,7 +85,7 @@ function Register() {
     }
 
     //checks if either passwords length is less than 1
-    if (password1.length < 1 || password2 < 1) {
+    if (password1.trim().length < 1 || password2.trim().length < 1) {
       validInput = false;
       newErrors.password = "password required*";
     } else if (password1 !== password2) {
