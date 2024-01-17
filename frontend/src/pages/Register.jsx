@@ -54,6 +54,7 @@ function Register() {
 
   const validateNewAccount = () => {
     let validInput = true;
+    //new error statuses
     const newErrors = {
       fname: null,
       lname: null,
@@ -83,24 +84,29 @@ function Register() {
       newErrors.email = "invalid email address";
     }
 
+    //checks if either passwords length is less than 1
     if (password1.length < 1 || password2 < 1) {
       validInput = false;
       newErrors.password = "password required*";
     } else if (password1 !== password2) {
+      //if passwords dont match, fails the check
       validInput = false;
       newErrors.password = "passwords do not match";
     }
 
     if (validInput) {
-      console.log("create new account");
+      //sends new account to backend
       sendNewUserData();
     } else {
+      //sets error statuses for incorrect fields
       setError(newErrors);
     }
   };
 
+  //sends new user data to backend
   const sendNewUserData = async () => {
     try {
+      //sends data in axios.post
       const resp = await axios.post(
         `${import.meta.env.VITE_API_URL}/signup`,
         {
@@ -111,8 +117,8 @@ function Register() {
         },
         { withCredentials: true }
       );
+      //if backend responds 200, moves user to home page
       if (resp.status === 200) {
-        console.log("Signedup");
         await navigate("/");
         navigate(0);
       }

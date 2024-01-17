@@ -8,7 +8,7 @@ function Play() {
   useEffect(() => {
     const autoLogin = async () => {
       try {
-        console.log("trying");
+        //sends a post to check if client side has valid cookie and sends a response.
         const resp = await axios.get(
           `${import.meta.env.VITE_API_URL}/autoLogin`,
           {
@@ -16,12 +16,10 @@ function Play() {
           }
         );
         if (resp.status === 200) {
-          console.log("success");
           setLogged(true);
         }
       } catch (err) {
         console.log(err);
-        // Handle error
         if (err.response && err.response.status === 401) {
           console.log("Unauthorized access");
         } else {

@@ -9,6 +9,7 @@ function Task(data) {
     finnish: data.task.finnish,
   };
 
+  //handles the deletion of a task
   const handleDeletion = async () => {
     try {
       const resp = axios.post(

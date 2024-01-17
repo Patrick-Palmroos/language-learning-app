@@ -5,6 +5,7 @@ import axios from "axios";
 function Logout() {
   const navigate = useNavigate();
 
+  //sends logout command to backend.
   useEffect(() => {
     const logUserOut = async () => {
       console.log("lol");
@@ -16,6 +17,7 @@ function Logout() {
         }
       );
       if (resp.status === 200) {
+        //after logging out, sends user to home page and reloads site.
         await navigate("/");
         navigate(0);
       } else {

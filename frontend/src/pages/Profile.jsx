@@ -4,24 +4,22 @@ import axios from "axios";
 function Profile() {
   const [logged, setLogged] = useState(false);
 
+  //checks if user is logged to know if page should be displayed.
   useEffect(() => {
     const autoLogin = async () => {
       try {
-        console.log("called");
+        //sends a post to check if client side has valid cookie and sends a response.
         const resp = await axios.get(
           `${import.meta.env.VITE_API_URL}/autoLogin`,
           {
             withCredentials: true,
           }
         );
-        console.log("ok");
         if (resp.status === 200) {
-          console.log("success");
           setLogged(true);
         }
       } catch (err) {
         console.log(err);
-        // Handle error
         if (err.response && err.response.status === 401) {
           console.log("Unauthorized access");
         } else {

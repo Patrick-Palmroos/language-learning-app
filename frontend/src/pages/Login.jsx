@@ -14,7 +14,7 @@ const theme = createTheme({
     MuiInputLabel: {
       styleOverrides: {
         root: {
-          color: "white", // Label text color
+          color: "white",
         },
       },
     },
@@ -40,8 +40,9 @@ function Login() {
   const [logged, setLogged] = useState(false);
   const [err, setErr] = useState(null);
 
+  //handles the login button logic
   const handleLogin = async () => {
-    console.log(`Username: ${emailInput} \nPassword: ${passwordInput}`);
+    //sends a post containing login credentials to check for backend
     try {
       const resp = await axios.post(
         `${import.meta.env.VITE_API_URL}/login`,
@@ -51,25 +52,22 @@ function Login() {
         },
         { withCredentials: true }
       );
+      //if response is 200, navigates to home page and refreshes page
       if (resp.status === 200) {
-        console.log("LogggeeedINNNNNN");
         await navigate("/");
         navigate(0);
-      } else {
-        console.log("here");
       }
     } catch (err) {
-      //if account doesnt exist, reloads site so the post works again
+      //if account doesnt exist, sets error.
       setErr("invalid password or email");
-      //navigate(0);
-      console.log("login failed ", err);
     }
   };
 
+  //checks if user is logged in to know if page should be displayed.
   useEffect(() => {
     const autoLogin = async () => {
       try {
-        console.log("trying");
+        //sends a post to check if client side has valid cookie and sends a response.
         const resp = await axios.get(
           `${import.meta.env.VITE_API_URL}/autoLogin`,
           {
@@ -81,8 +79,7 @@ function Login() {
           setLogged(true);
         }
       } catch (err) {
-        console.log(err);
-        // Handle error
+        //in case of an error.
         if (err.response && err.response.status === 401) {
           console.log("Unauthorized access");
         } else {
@@ -96,7 +93,7 @@ function Login() {
   return (
     <>
       {logged ? null : (
-        //theme provider which hauses input fields.
+        //theme provider which houses input fields.
         <ThemeProvider theme={theme}>
           <h1>Log in</h1>
           <Box
