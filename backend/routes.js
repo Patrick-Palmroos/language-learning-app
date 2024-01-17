@@ -92,4 +92,9 @@ router.patch("/editTask", async (req, res) => {
   await db.editTask(req.body).then((stat) => res.sendStatus(stat.code));
 });
 
+//route for getting task by id.
+router.post("/taskById", async (req, res) => {
+  await db.findTaskById(req.body.id).then((item) => res.json(item));
+});
+
 module.exports = router;
