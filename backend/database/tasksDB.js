@@ -2,8 +2,7 @@ const mysql = require("mysql");
 const config = require("./config.js");
 const connection = mysql.createPool(config);
 
-//fetches all locations from the sql database
-
+//gets all tasks from database
 const getAllTasks = async () => {
   const promise = await new Promise((resolve, reject) => {
     connection.query(
@@ -20,6 +19,7 @@ const getAllTasks = async () => {
   return promise;
 };
 
+//takes in email & password as parameters and checks if the user exists in database
 const checkForUser = async (email, password) => {
   const promise = await new Promise((resolve, reject) => {
     connection.query(
@@ -43,6 +43,7 @@ const checkForUser = async (email, password) => {
   return promise;
 };
 
+//posts new account detauls into the database
 const createAccount = async (data) => {
   console.log(data);
   const promise = await new Promise((resolve, reject) => {
@@ -63,10 +64,12 @@ const createAccount = async (data) => {
   return promise;
 };
 
+//creates a task
 const createTask = async (data) => {
   console.log("data");
 };
 
+//deletes a task by its id
 const deleteTaskByID = (id) => {
   console.log(id);
 };

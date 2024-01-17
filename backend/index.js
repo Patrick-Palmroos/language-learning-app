@@ -11,6 +11,7 @@ const app = express();
 const port = 8080;
 app.use(express.json());
 
+//cors settings
 app.use(
   cors({
     origin: "http://localhost:5173",
@@ -29,6 +30,7 @@ app.use(express.static("./frontend/dist"));
 
 app.use("/", routes);
 
+//for establishing connection
 const server = app
   .listen(port, () => {
     console.log(`SERVER: listening on port ${port}`);

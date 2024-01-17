@@ -5,13 +5,16 @@ require("dotenv").config();
 
 const router = express.Router();
 
+//route for getting all tasks
 router.get("/tasks", async (req, res) => {
   await db.getAllTasks().then((dbItems) => res.json(dbItems));
 });
 
+//route for logging the user automatically in.
 router.get("/autoLogin", (req, res) => {
   const authToken = req.cookies.authToken;
   console.log("autologin initialized");
+  //checks if authtoken exists and then attempts to decode it.
   if (authToken) {
     try {
       const decodToken = jsonwebtoken.verify(authToken, process.env.AUTH_KEY);
@@ -27,9 +30,11 @@ router.get("/autoLogin", (req, res) => {
   }
 });
 
+//logs the user in. Takes email & password inside req.body.
 router.post("/login", async (req, res) => {
   const { email, password } = req.body;
 
+  //calls db.checkforuser and if response is code 200, logs user in and saves encrypted token.
   try {
     const resp = await db.checkForUser(email, password);
 
@@ -54,23 +59,27 @@ router.post("/login", async (req, res) => {
   }
 });
 
+//logs the user out by clearing the cookie
 router.post("/logout", (req, res) => {
   console.log("routes logout");
   res.clearCookie("authToken");
   res.sendStatus(200);
 });
 
+//route for creating an account. req.body has new to be added credentials.
 router.post("/signup", async (req, res) => {
   await db
     .createAccount(req.body)
     .then((result) => res.sendStatus(result.code));
 });
 
+//route for adding a task
 router.post("/addTask", async (req, res) => {
   console.log("added:");
   db.createTask(req);
 });
 
+//route for deleting a task
 router.post("/deleteTask", async (req, res) => {
   console.log("deleting " + req.body.id + "...");
   db.deleteTaskByID(req.body.id);
