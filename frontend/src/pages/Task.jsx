@@ -39,7 +39,13 @@ function Task(data) {
       <Button
         variant="contained"
         // endIcon={<LoginOutlinedIcon />}
-        onClick={() => console.log("edit")}
+        onClick={() => {
+          navigate("/edit", {
+            state: {
+              id: task.id,
+            },
+          });
+        }}
       >
         Edit
       </Button>
