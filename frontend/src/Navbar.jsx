@@ -42,13 +42,16 @@ function Navbar() {
           <li>
             <Link to="/">Home</Link>
           </li>
-          {logged ? (
-            <li>
+          <li>
+            {logged ? (
               <Link to="/play">Learn!</Link>
-            </li>
-          ) : (
-            <Link to="/login">Learn!</Link>
-          )}
+            ) : (
+              <Link to="/login">Learn!</Link>
+            )}
+          </li>
+          <li>
+            <Link to="/admin">Admin</Link>
+          </li>
         </ul>
         <div className="dropDown">
           <button onClick={handleDropdown}>Profile</button>
