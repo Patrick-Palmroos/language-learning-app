@@ -63,4 +63,18 @@ const createAccount = async (data) => {
   return promise;
 };
 
-module.exports = { getAllTasks, checkForUser, createAccount };
+const createTask = async (data) => {
+  console.log("data");
+};
+
+const deleteTaskByID = (id) => {
+  console.log(id);
+};
+
+module.exports = {
+  getAllTasks,
+  checkForUser,
+  createAccount,
+  createTask,
+  deleteTaskByID,
+};
