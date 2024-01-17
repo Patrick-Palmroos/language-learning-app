@@ -3,19 +3,25 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 
 function Navbar() {
+  const [open, setOpen] = useState(false);
   const [logged, setLogged] = useState(false);
+  const [admin, setAdmin] = useState(false);
 
+  //checks if user is logged and if is, if user is admin.
   useEffect(() => {
     const autoLogin = async () => {
       try {
         console.log("called");
-        const resp = await axios.get(`http://localhost:8080/autoLogin`, {
-          withCredentials: true,
-        });
+        const resp = await axios.get(
+          `${import.meta.env.VITE_API_URL}/autoLogin`,
+          {
+            withCredentials: true,
+          }
+        );
         console.log("ok");
         if (resp.status === 200) {
-          console.log("success");
           setLogged(true);
+          isAdmin();
         }
       } catch (err) {
         console.log(err);
@@ -29,8 +35,19 @@ function Navbar() {
     };
     autoLogin();
   }, []);
-  const [open, setOpen] = useState(false);
 
+  //checks if user is an admin.
+  const isAdmin = async () => {
+    const resp = await axios.get(`${import.meta.env.VITE_API_URL}/userById`, {
+      withCredentials: true,
+    });
+    if (resp.data[0].Admin === 1) {
+      setAdmin(true);
+      console.log("is admin");
+    }
+  };
+
+  //handles the state of dropDownmenu
   const handleDropdown = () => {
     setOpen(!open);
   };
@@ -49,9 +66,7 @@ function Navbar() {
               <Link to="/login">Learn!</Link>
             )}
           </li>
-          <li>
-            <Link to="/admin">Admin</Link>
-          </li>
+          <li>{logged && admin ? <Link to="/admin">Admin</Link> : null}</li>
         </ul>
         <div className="dropDown">
           <button onClick={handleDropdown}>Profile</button>
