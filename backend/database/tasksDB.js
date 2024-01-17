@@ -119,6 +119,24 @@ const editTask = async (data) => {
   return promise;
 };
 
+//gets a task by its id.
+const findTaskById = async (id) => {
+  const promise = await new Promise((resolve, reject) => {
+    connection.query(
+      `SELECT CONNECTION_ID() AS ConnID, Tasks.* FROM Tasks WHERE TaskID = ?`,
+      [id],
+      (err, results) => {
+        if (err) {
+          reject({ code: 404, message: "items not found" });
+        }
+        resolve(results);
+      }
+    );
+  });
+
+  return promise;
+};
+
 module.exports = {
   getAllTasks,
   checkForUser,
@@ -126,4 +144,5 @@ module.exports = {
   createTask,
   deleteTaskByID,
   editTask,
+  findTaskById,
 };
