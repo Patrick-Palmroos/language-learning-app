@@ -10,6 +10,7 @@ function Play() {
   const navigate = useNavigate();
   const [data, setData] = useState([]);
   const [answered, setAnswered] = useState(false);
+  const [corrCount, setCorrCount] = useState(null);
 
   //checks if user is logged in.
   useEffect(() => {
@@ -65,7 +66,7 @@ function Play() {
         corrCount++;
       }
     });
-
+    setCorrCount(corrCount);
     //sends the new score to backend
     const resp = await axios.post(
       `${import.meta.env.VITE_API_URL}/newScore`,
@@ -103,6 +104,11 @@ function Play() {
       {logged ? (
         <>
           <div>
+            {answered && corrCount !== null ? (
+              <h1>
+                Your score was: {corrCount}/{tasks.length}
+              </h1>
+            ) : null}
             {tasks.length > 0 ? (
               <ul>
                 {tasks.map((task) => {
