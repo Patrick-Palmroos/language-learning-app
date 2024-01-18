@@ -8,6 +8,8 @@ function Play() {
   const [tasks, setTasks] = useState([]);
   const [logged, setLogged] = useState(false);
   const navigate = useNavigate();
+  const [data, setData] = useState([]);
+  const [answered, setAnswered] = useState(false);
 
   //checks if user is logged in.
   useEffect(() => {
@@ -35,6 +37,50 @@ function Play() {
     autoLogin();
   }, []);
 
+  //updates user score inside the setData
+  function updateScore(id, ans) {
+    let changed = false;
+    //creates new array to be saved inside data.
+    const newData = data.map((item) => {
+      if (item.id === id) {
+        console.log("before map: " + item.id + item.input);
+        changed = true;
+        return { ...item, input: ans };
+      }
+      return { ...item };
+    });
+    if (changed) {
+      setData(newData);
+    }
+  }
+
+  //handles clicking the check button
+  const handleCheck = async () => {
+    //sets answered to true so each task object knows were finished.
+    await setAnswered(true);
+    //gets how many answers were correct
+    let corrCount = 0;
+    data.map((item) => {
+      if (item.input) {
+        corrCount++;
+      }
+    });
+
+    //sends the new score to backend
+    const resp = await axios.post(
+      `${import.meta.env.VITE_API_URL}/newScore`,
+      {
+        score: corrCount,
+      },
+      {
+        withCredentials: true,
+      }
+    );
+    if (resp.status !== 200) {
+      console.log("Error with sending score to backend");
+    }
+  };
+
   //gets all tasks
   useEffect(() => {
     axios
@@ -42,6 +88,15 @@ function Play() {
       .then((resp) => setTasks(resp.data))
       .catch((err) => console.log(err));
   }, []);
+
+  //maps tasks and puts them inside data with setData
+  useEffect(() => {
+    const newData = tasks.map((task) => {
+      return { id: task.TaskID, input: false };
+    });
+
+    setData(newData);
+  }, [tasks]);
 
   return (
     <>
@@ -51,22 +106,39 @@ function Play() {
             {tasks.length > 0 ? (
               <ul>
                 {tasks.map((task) => {
-                  return <li key={task.TaskID}>{<PlayTask data={task} />}</li>;
+                  // console.log(tasks.length);
+                  return (
+                    <li key={task.TaskID}>
+                      {
+                        <PlayTask
+                          prop={task}
+                          callback={updateScore}
+                          answered={answered}
+                        />
+                      }
+                    </li>
+                  );
                 })}
               </ul>
             ) : (
               <p>Loading data</p>
             )}
           </div>
-          <Button
-            variant="contained"
-            size="small"
-            onClick={() => {
-              navigate(0);
-            }}
-          >
-            try again
-          </Button>
+          {answered ? (
+            <Button
+              variant="contained"
+              size="small"
+              onClick={() => {
+                navigate(0);
+              }}
+            >
+              Try again!
+            </Button>
+          ) : (
+            <Button variant="contained" size="small" onClick={handleCheck}>
+              Check
+            </Button>
+          )}
         </>
       ) : null}
     </>
