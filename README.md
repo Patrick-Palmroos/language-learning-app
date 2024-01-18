@@ -21,4 +21,4 @@ Hello! this my full stack language learning project.
 
 ## video for going through the app
 
-# https://youtu.be/P_GhkYlgWuI
+# https://www.youtube.com/watch?v=RM75Kd7sAyo
