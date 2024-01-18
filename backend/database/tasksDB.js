@@ -155,6 +155,24 @@ const findUserByID = async (id) => {
   return promise;
 };
 
+//increments the given users score by one
+const incrementUserScore = async (id) => {
+  const promise = await new Promise((resolve, reject) => {
+    connection.query(
+      `UPDATE Users SET points = points + 1 WHERE UserID = ?`,
+      [id],
+      (err, results) => {
+        if (err) {
+          reject({ code: 404, message: "items not found" });
+        }
+        resolve({ code: 200 });
+      }
+    );
+  });
+
+  return promise;
+};
+
 module.exports = {
   getAllTasks,
   checkForUser,
@@ -164,4 +182,5 @@ module.exports = {
   editTask,
   findTaskById,
   findUserByID,
+  incrementUserScore,
 };
