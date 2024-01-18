@@ -109,16 +109,17 @@ router.get("/userById", async (req, res) => {
   }
 });
 
-//route for getting user by id
-router.post("/newScore", async (req, res) => {
+//increment users score by one
+router.get("/newScore", async (req, res) => {
   const authToken = req.cookies.authToken;
   console.log(authToken + " + " + req.body.score);
   if (authToken) {
     try {
       //decodes token and sends it to database
       const decodToken = jsonwebtoken.verify(authToken, process.env.AUTH_KEY);
-      //await db.updateUserScore(decodToken.userID).then((item) => res.json(item));
-      console.log(decodToken.userID);
+      await db
+        .incrementUserScore(decodToken.userID)
+        .then((item) => res.sendStatus(item.code));
     } catch (err) {
       console.log("invalid token");
     }
