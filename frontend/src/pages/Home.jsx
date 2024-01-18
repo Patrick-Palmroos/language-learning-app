@@ -35,10 +35,17 @@ function Home() {
     <>
       <div>
         <h1>Learn a Language!</h1>
-        <h3>Languages to learn:</h3>
+        <h3>Learn english/finnish today!</h3>
+        <h3>how to use:</h3>
         <ul>
-          <li>english</li>
-          <li>finnish</li>
+          <li>must be logged in to use application</li>
+          <li>if you don't have an an account, create one from login page.</li>
+          <li>alternatively use test account:</li>
+          <li>email: rand.user@gmail.com, password: test123</li>
+          <li>
+            Click on learn to start learning today! You can see your score from
+            your profile!
+          </li>
         </ul>
       </div>
       <div>{logged ? <h1>Welcome!</h1> : null}</div>
