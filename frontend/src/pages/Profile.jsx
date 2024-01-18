@@ -1,8 +1,14 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { Lan } from "@mui/icons-material";
 
 function Profile() {
   const [logged, setLogged] = useState(false);
+  const [info, setInfo] = useState({
+    fname: "",
+    Lname: "",
+    score: 0,
+  });
 
   //checks if user is logged to know if page should be displayed.
   useEffect(() => {
@@ -30,7 +36,47 @@ function Profile() {
     autoLogin();
   }, []);
 
-  return <>{logged ? <h1>Profile</h1> : null}</>;
+  //gets user info when logged gets updated.
+  useEffect(() => {
+    const userInfo = async () => {
+      if (logged) {
+        const resp = await axios.get(
+          `${import.meta.env.VITE_API_URL}/userById`,
+          {
+            withCredentials: true,
+          }
+        );
+        if (resp) {
+          setInfo({
+            fname: resp.data[0].FirstName,
+            Lname: resp.data[0].LastName,
+            score: resp.data[0].points,
+          });
+        }
+      }
+    };
+    userInfo();
+  }, [logged]);
+
+  return (
+    <>
+      {logged ? (
+        <>
+          <div>
+            <h1>Profile</h1>
+            <h2>
+              Welcome {info.fname} {info.Lname}!
+            </h2>
+          </div>
+          <div>
+            <h2>your total score is: {info.score}</h2>
+          </div>
+        </>
+      ) : (
+        <p>Must be logged in</p>
+      )}
+    </>
+  );
 }
 
 export default Profile;
