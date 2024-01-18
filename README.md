@@ -18,3 +18,7 @@ Hello! this my full stack language learning project.
 1. You have to login to use tha application and connect to an appropriate sql database.
 2. after that you can use the application properly!
 3. test admin account is: email(admin.test@gmail.com) password(admin)
+
+## video for going through the app
+
+# https://youtu.be/P_GhkYlgWuI
