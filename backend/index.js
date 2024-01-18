@@ -14,7 +14,7 @@ app.use(express.json());
 //cors settings
 app.use(
   cors({
-    origin: ["https://language-app-pg4n.onrender.com"],
+    origin: ["https://language-learning-ed4d.onrender.com"],
     credentials: true,
     allowedHeaders: [
       "set-cookie",
@@ -40,6 +40,7 @@ const server = app
     process.exit(1);
   });
 
+/*
 //function for disconnecting from server
 const gracefulShutdown = () => {
   console.log("Starting graceful shutdown...");
@@ -69,3 +70,4 @@ const gracefulShutdown = () => {
 
 process.on("SIGTERM", gracefulShutdown); // Some other app requirest shutdown.
 process.on("SIGINT", gracefulShutdown); // ctrl-c
+*/
