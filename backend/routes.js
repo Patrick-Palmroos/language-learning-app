@@ -45,7 +45,6 @@ router.post("/login", async (req, res) => {
         maxAge: 60 * 60 * 1000,
       });
       res.sendStatus(200);
-      console.log("logged in");
     } else {
       res.sendStatus(401);
     }
@@ -57,7 +56,6 @@ router.post("/login", async (req, res) => {
 
 //logs the user out by clearing the cookie
 router.post("/logout", (req, res) => {
-  console.log("routes logout");
   res.clearCookie("authToken");
   res.sendStatus(200);
 });
@@ -71,13 +69,11 @@ router.post("/signup", async (req, res) => {
 
 //route for adding a task
 router.post("/addTask", async (req, res) => {
-  console.log("added:");
   await db.createTask(req.body).then((stat) => res.sendStatus(stat.code));
 });
 
 //route for deleting a task
 router.post("/deleteTask", async (req, res) => {
-  console.log("deleting " + req.body.id + "...");
   await db
     .deleteTaskByID(req.body.id)
     .then((stat) => res.sendStatus(stat.code));
@@ -112,7 +108,6 @@ router.get("/userById", async (req, res) => {
 //increment users score by given amount
 router.post("/newScore", async (req, res) => {
   const authToken = req.cookies.authToken;
-  console.log(authToken + " + " + req.body.score);
   if (authToken) {
     try {
       //decodes token and sends it to database
