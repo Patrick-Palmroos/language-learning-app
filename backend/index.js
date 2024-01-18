@@ -8,7 +8,7 @@ const connection = mysql.createPool(config);
 const routes = require("./routes");
 
 const app = express();
-const port = 8080;
+const port = process.env.PORT || 8080;
 app.use(express.json());
 
 //cors settings
@@ -25,8 +25,6 @@ app.use(
   })
 );
 app.use(cookieParser());
-
-app.use(express.static("./frontend/dist"));
 
 app.use("/", routes);
 
