@@ -109,8 +109,8 @@ router.get("/userById", async (req, res) => {
   }
 });
 
-//increment users score by one
-router.get("/newScore", async (req, res) => {
+//increment users score by given amount
+router.post("/newScore", async (req, res) => {
   const authToken = req.cookies.authToken;
   console.log(authToken + " + " + req.body.score);
   if (authToken) {
@@ -118,7 +118,7 @@ router.get("/newScore", async (req, res) => {
       //decodes token and sends it to database
       const decodToken = jsonwebtoken.verify(authToken, process.env.AUTH_KEY);
       await db
-        .incrementUserScore(decodToken.userID)
+        .incrementUserScore(decodToken.userID, req.body.score)
         .then((item) => res.sendStatus(item.code));
     } catch (err) {
       console.log("invalid token");
