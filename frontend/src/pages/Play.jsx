@@ -146,7 +146,9 @@ function Play() {
             </Button>
           )}
         </>
-      ) : null}
+      ) : (
+        <p>Must be logged in..</p>
+      )}
     </>
   );
 }

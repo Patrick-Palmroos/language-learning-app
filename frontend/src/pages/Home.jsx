@@ -41,7 +41,7 @@ function Home() {
           <li>finnish</li>
         </ul>
       </div>
-      <div>{logged ? <h1>Welcome!</h1> : <h1>Not logged in</h1>}</div>
+      <div>{logged ? <h1>Welcome!</h1> : null}</div>
     </>
   );
 }
