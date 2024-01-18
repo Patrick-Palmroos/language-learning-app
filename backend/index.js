@@ -14,7 +14,7 @@ app.use(express.json());
 //cors settings
 app.use(
   cors({
-    origin: ["https://language-app-pg4n.onrender.com/"],
+    origin: "http://localhost:5173",
     credentials: true,
     allowedHeaders: [
       "set-cookie",
@@ -26,7 +26,7 @@ app.use(
 );
 app.use(cookieParser());
 
-app.use(express.static("../frontend/dist"));
+app.use(express.static("./frontend/dist"));
 
 app.use("/", routes);
 

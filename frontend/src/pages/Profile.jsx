@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { Lan } from "@mui/icons-material";
 
 function Profile() {
   const [logged, setLogged] = useState(false);
