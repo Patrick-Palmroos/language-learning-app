@@ -155,12 +155,12 @@ const findUserByID = async (id) => {
   return promise;
 };
 
-//increments the given users score by one
-const incrementUserScore = async (id) => {
+//increments the given users score by given amount
+const incrementUserScore = async (id, score) => {
   const promise = await new Promise((resolve, reject) => {
     connection.query(
-      `UPDATE Users SET points = points + 1 WHERE UserID = ?`,
-      [id],
+      `UPDATE Users SET points = points + ? WHERE UserID = ?`,
+      [score, id],
       (err, results) => {
         if (err) {
           reject({ code: 404, message: "items not found" });
