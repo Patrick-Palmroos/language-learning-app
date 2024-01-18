@@ -1,10 +1,15 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
+import PlayTask from "./PlayTask";
+import Button from "@mui/material/Button";
+import { useNavigate } from "react-router-dom";
 
 function Play() {
   const [tasks, setTasks] = useState([]);
   const [logged, setLogged] = useState(false);
+  const navigate = useNavigate();
 
+  //checks if user is logged in.
   useEffect(() => {
     const autoLogin = async () => {
       try {
@@ -30,31 +35,39 @@ function Play() {
     autoLogin();
   }, []);
 
+  //gets all tasks
   useEffect(() => {
     axios
       .get(`${import.meta.env.VITE_API_URL}/tasks`)
       .then((resp) => setTasks(resp.data))
       .catch((err) => console.log(err));
   }, []);
+
   return (
     <>
       {logged ? (
-        <div>
-          {tasks.length > 0 ? (
-            <ul>
-              {tasks.map((task) => {
-                console.log(task);
-                return (
-                  <li
-                    key={task.TaskID}
-                  >{`task in english: ${task.English}, finnish: ${task.Finnish}, swedish: ${task.Swedish}`}</li>
-                );
-              })}
-            </ul>
-          ) : (
-            <p>Loading data</p>
-          )}
-        </div>
+        <>
+          <div>
+            {tasks.length > 0 ? (
+              <ul>
+                {tasks.map((task) => {
+                  return <li key={task.TaskID}>{<PlayTask data={task} />}</li>;
+                })}
+              </ul>
+            ) : (
+              <p>Loading data</p>
+            )}
+          </div>
+          <Button
+            variant="contained"
+            size="small"
+            onClick={() => {
+              navigate(0);
+            }}
+          >
+            try again
+          </Button>
+        </>
       ) : null}
     </>
   );
