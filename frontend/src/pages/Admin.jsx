@@ -32,14 +32,50 @@ const theme = createTheme({
 });
 
 function Admin() {
-  const [logged, setLogged] = useState(false);
-  const [adminLogged, setAdminLogged] = useState(false);
   const [tasks, setTasks] = useState([]);
   const [finnish, setFinnish] = useState("");
   const [english, setEnglish] = useState("");
   const [err, setErr] = useState(null);
   const navigate = useNavigate();
+  const [logged, setLogged] = useState(false);
+  const [admin, setAdmin] = useState(false);
 
+  //checks if user is logged and if is, if user is admin.
+  useEffect(() => {
+    const autoLogin = async () => {
+      try {
+        const resp = await axios.get(
+          `${import.meta.env.VITE_API_URL}/autoLogin`,
+          {
+            withCredentials: true,
+          }
+        );
+        if (resp.status === 200) {
+          setLogged(true);
+          isAdmin();
+        }
+      } catch (err) {
+        console.log(err);
+        // Handle error
+        if (err.response && err.response.status === 401) {
+          console.log("Unauthorized access");
+        } else {
+          console.error("Unexpected error:", err);
+        }
+      }
+    };
+    autoLogin();
+  }, []);
+
+  //checks if user is an admin.
+  const isAdmin = async () => {
+    const resp = await axios.get(`${import.meta.env.VITE_API_URL}/userById`, {
+      withCredentials: true,
+    });
+    if (resp.data[0].Admin === 1) {
+      setAdmin(true);
+    }
+  };
   //gets all tasks and puts them inside tasks
   useEffect(() => {
     axios
@@ -80,47 +116,53 @@ function Admin() {
 
   return (
     <>
-      <h2>New task:</h2>
-      <div>
-        <ThemeProvider theme={theme}>
-          <TextField
-            required
-            id="english"
-            label="english"
-            InputProps={{ style: { color: "white" } }}
-            onChange={(input) => setEnglish(input.target.value)}
-            error={err === null ? false : true}
-            helperText={err}
-          />
-          <TextField
-            required
-            id="finnish"
-            label="finnish"
-            InputProps={{ style: { color: "white" } }}
-            onChange={(input) => setFinnish(input.target.value)}
-            error={err === null ? false : true}
-            helperText={err}
-          />
-        </ThemeProvider>
-      </div>
-      <Button variant="contained" onClick={handleNewTask}>
-        add task
-      </Button>
-      <h2>all tasks:</h2>
-      <ul>
-        {tasks.map((task) => {
-          return (
-            <Task
-              key={task.TaskID}
-              task={{
-                id: task.TaskID,
-                english: task.English,
-                finnish: task.Finnish,
-              }}
-            />
-          );
-        })}
-      </ul>
+      {admin && logged ? (
+        <>
+          <h2>New task:</h2>
+          <div>
+            <ThemeProvider theme={theme}>
+              <TextField
+                required
+                id="english"
+                label="english"
+                InputProps={{ style: { color: "white" } }}
+                onChange={(input) => setEnglish(input.target.value)}
+                error={err === null ? false : true}
+                helperText={err}
+              />
+              <TextField
+                required
+                id="finnish"
+                label="finnish"
+                InputProps={{ style: { color: "white" } }}
+                onChange={(input) => setFinnish(input.target.value)}
+                error={err === null ? false : true}
+                helperText={err}
+              />
+            </ThemeProvider>
+          </div>
+          <Button variant="contained" onClick={handleNewTask}>
+            add task
+          </Button>
+          <h2>all tasks:</h2>
+          <ul>
+            {tasks.map((task) => {
+              return (
+                <Task
+                  key={task.TaskID}
+                  task={{
+                    id: task.TaskID,
+                    english: task.English,
+                    finnish: task.Finnish,
+                  }}
+                />
+              );
+            })}
+          </ul>
+        </>
+      ) : (
+        <p>MUST BE AN ADMIN</p>
+      )}
     </>
   );
 }
