@@ -45,7 +45,6 @@ const checkForUser = async (email, password) => {
 
 //posts new account detauls into the database
 const createAccount = async (data) => {
-  console.log(data);
   const promise = await new Promise((resolve, reject) => {
     connection.query(
       `INSERT INTO Users (FirstName, LastName, Password, Email, Admin, points)
@@ -86,7 +85,6 @@ const createTask = async (data) => {
 
 //deletes a task by its id
 const deleteTaskByID = async (id) => {
-  console.log(id);
   const promise = await new Promise((resolve, reject) => {
     connection.query(`DELETE FROM Tasks WHERE TaskID = ?`, [id], (err, res) => {
       if (err) {
@@ -102,7 +100,6 @@ const deleteTaskByID = async (id) => {
 
 //edit task. replace english and finnish with the ones in data using UPDATE.
 const editTask = async (data) => {
-  console.log(data);
   const promise = await new Promise((resolve, reject) => {
     connection.query(
       `UPDATE Tasks SET English = ?, Finnish = ? WHERE TaskID = ?`,
