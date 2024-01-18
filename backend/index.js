@@ -11,10 +11,23 @@ const app = express();
 const port = process.env.PORT || 8080;
 app.use(express.json());
 
+//allowed origins
+const allowedOrigins = [
+  "http://localhost:5174",
+  "https://language-app-pg4n.onrender.com",
+  "https://language-learning-ed4d.onrender.com/",
+];
+
 //cors settings
 app.use(
   cors({
-    origin: "https://language-app-pg4n.onrender.com",
+    origin: (origin, callback) => {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
     credentials: true,
     allowedHeaders: [
       "set-cookie",
@@ -25,6 +38,8 @@ app.use(
   })
 );
 app.use(cookieParser());
+
+app.use(express.static("./frontend/dist"));
 
 app.use("/", routes);
 
